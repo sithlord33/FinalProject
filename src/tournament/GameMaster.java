@@ -37,6 +37,9 @@ public class GameMaster {
 		players.add(new MaxMinPayoff());
 		players.add(new MinMaxRegret());
 		players.add(new PSNE());
+		players.add(new Batman());
+		players.add(new Superman());
+		players.add(new WonderWoman());
 		
 		ArrayList<Parameters> settings = new ArrayList<Parameters>();
 		//settings.add(new Parameters(maxPayoff,numActions,0,0,0,GameType.ZERO_SUM));
