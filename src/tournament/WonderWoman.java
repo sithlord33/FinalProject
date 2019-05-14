@@ -19,7 +19,7 @@ public class WonderWoman extends Player{
     protected MixedStrategy solveGame(MatrixGame mg, int playerNumber) {
         MixedStrategy ms = new MixedStrategy(mg.getNumActions(playerNumber));
 
-        double[] minValues = new double[mg.getNumActions(playerNumber)];
+        /*double[] minValues = new double[mg.getNumActions(playerNumber)];
         int maxmin = 1;
         for (int i = 1; i < mg.getNumActions(playerNumber); i++) {
             double min = Double.MAX_VALUE;
@@ -43,8 +43,7 @@ public class WonderWoman extends Player{
         for (int i = 0; i <= mg.getNumActions(playerNumber); i++)
             ms.setProb(i, 0.0);
 
-        ms.setProb(maxmin, 1.0);
-
+        ms.setProb(maxmin, 1.0);*/
 
         return ms;
     }
