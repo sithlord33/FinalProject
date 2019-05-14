@@ -32,8 +32,11 @@ public class GameMaster {
 	public static void main(String[] args) {
 		ArrayList<Player> players = new ArrayList<Player>();
 		//players.add(new UniformRandom());
-		players.add(new SolidRock());
+		//players.add(new SolidRock());
 		players.add(new ManualOverride());
+		players.add(new MaxMinPayoff());
+		players.add(new MinMaxRegret());
+		players.add(new PSNE());
 		//add your agent(s) here
 		
 		ArrayList<Parameters> settings = new ArrayList<Parameters>();
