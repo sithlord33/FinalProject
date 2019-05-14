@@ -19,61 +19,56 @@ public class PSNE extends Player {
     protected MixedStrategy solveGame(MatrixGame mg, int playerNumber) {
         MixedStrategy ms = new MixedStrategy(mg.getNumActions(playerNumber));
 
-        boolean[][] p1DominantCoordinates = new boolean[mg.getNumActions(playerNumber)][mg.getNumActions(playerNumber)]; //p1disbig
-        boolean[][] p2DominantCoordinates = new boolean[mg.getNumActions(playerNumber)][mg.getNumActions(playerNumber)]; //p2disbig
+        boolean[][] playerMatrix = new boolean[mg.getNumActions(playerNumber)][mg.getNumActions(playerNumber)];
+        boolean[][] opponentMatrix = new boolean[mg.getNumActions(playerNumber)][mg.getNumActions(playerNumber)];
 
-        for (int row = 1; row < mg.getNumActions(playerNumber); row++) {
+        for (int i = 1; i < mg.getNumActions(playerNumber); i++) {
             double p1CurrentMax = Double.MIN_VALUE;
             double p2CurrentMax = Double.MIN_VALUE;
-
-            for (int column = 1; column < mg.getNumActions(playerNumber); column++) {
-                int[] p1Actions = {row, column};
-                int[] p2Actions = {column, row};
+            for (int j = 1; j < mg.getNumActions(playerNumber); j++) {
+                int[] p1Actions = {i, j};
+                int[] p2Actions = {j, i};
                 double[] payoffs = mg.getPayoffs(p1Actions);
-                if (p1CurrentMax < payoffs[playerNumber]){
+                if (p1CurrentMax < payoffs[playerNumber])
                     p1CurrentMax = payoffs[playerNumber];
-                }
                 payoffs = mg.getPayoffs(p2Actions);
-                if (p2CurrentMax < payoffs[getOpponentNumber()-1]){
+                if (p2CurrentMax < payoffs[getOpponentNumber()-1])
                     p2CurrentMax = payoffs[getOpponentNumber()-1];
-                }
             }
 
-            for (int column = 1; column < mg.getNumActions(playerNumber); column++) { //populates boolean 2d array
-                int[] p1Actions = {row, column};
-                int[] p2Actions = {column, row};
+            for (int j = 1; j < mg.getNumActions(playerNumber); j++) {
+                int[] p1Actions = {i, j};
+                int[] p2Actions = {j, i};
                 double[] payoffs = mg.getPayoffs(p1Actions);
-                if (p1CurrentMax == payoffs[playerNumber]){
-                    p1DominantCoordinates[row][column] = true;
-                }
-                else p1DominantCoordinates[row][column] = false;
+                if (p1CurrentMax == payoffs[playerNumber])
+                    playerMatrix[i][j] = true;
+                else playerMatrix[i][j] = false;
                 payoffs = mg.getPayoffs(p2Actions);
-                if(p2CurrentMax == payoffs[getOpponentNumber()-1]){
-                    p2DominantCoordinates[column][row] = true;
-                }
-                else p2DominantCoordinates[column][row] = false;
+                if(p2CurrentMax == payoffs[getOpponentNumber()-1])
+                    opponentMatrix[j][i] = true;
+                else opponentMatrix[j][i] = false;
             }
         }
-        double trueMax = Double.MIN_VALUE;
+        double max = Double.MIN_VALUE;
         int[] coordinates = {0,0};
 
-        for (int row = 1; row < mg.getNumActions(playerNumber); row++) {
-            for (int column = 1; column < mg.getNumActions(playerNumber); column++) {
-                boolean p1IsDominant = p1DominantCoordinates[row][column];
-                boolean p2IsDominant = p2DominantCoordinates[row][column];
-                if(p1IsDominant && p2IsDominant){
-                    int[] actions = {row, column};
+        for (int i = 1; i < mg.getNumActions(playerNumber); i++) {
+            for (int j = 1; j < mg.getNumActions(playerNumber); j++) {
+                boolean player = playerMatrix[i][j];
+                boolean opponent = opponentMatrix[i][j];
+                if(player && opponent){
+                    int[] actions = {i, j};
                     double[] payoffs = mg.getPayoffs(actions);
-                    if(payoffs[playerNumber] > trueMax){
-                        trueMax = payoffs[playerNumber];
-                        coordinates[0]= row;
-                        coordinates[1] = column;
+                    if(payoffs[playerNumber] > max){
+                        max = payoffs[playerNumber];
+                        coordinates[0]= i;
+                        coordinates[1] = j;
                     }
                 }
             }
         }
-        for(int a = 0; a <= mg.getNumActions(playerNumber);a++) {
-            ms.setProb(a, 0.0);
+        for(int i = 0; i <= mg.getNumActions(playerNumber);i++) {
+            ms.setProb(i, 0.0);
         }
         if(coordinates[0] != 0) {
             ms.setProb(coordinates[playerNumber] + 1, 1.0);

@@ -22,31 +22,30 @@ public class MaxMinPayoff extends Player {
         MixedStrategy ms = new MixedStrategy(mg.getNumActions(playerNumber));
 
         double[] minValues = new double[mg.getNumActions(playerNumber)];
-        int maxMinIndex = 1;
-        for (int row = 1; row < mg.getNumActions(playerNumber); row++) {
-            double minValue = Double.MAX_VALUE;
-            for (int column = 1; column < mg.getNumActions(playerNumber); column++) {
-                int[] actions = {row, column};
+        int maxmin = 1;
+        for (int i = 1; i < mg.getNumActions(playerNumber); i++) {
+            double min = Double.MAX_VALUE;
+            for (int j = 1; j < mg.getNumActions(playerNumber); j++) {
+                int[] actions = {i, j};
                 double[] payoffs = mg.getPayoffs(actions);
-                if (minValue > payoffs[playerNumber]){
-                    minValue = payoffs[playerNumber];
-                }
+                if (min > payoffs[playerNumber])
+                    min = payoffs[playerNumber];
             }
-            minValues[row] = minValue;
+            minValues[i] = min;
         }
-        double currentMax = Double.MIN_VALUE;
+        double temp = Double.MIN_VALUE;
 
         for (int i = 0; i < minValues.length; i++) {
-            if(minValues[i] > currentMax){
-                currentMax = minValues[i];
-                maxMinIndex = i+1;
+            if (minValues[i] > temp) {
+                temp = minValues[i];
+                maxmin = i + 1;
             }
         }
 
-        for(int a = 0; a <= mg.getNumActions(playerNumber);a++) {
-            ms.setProb(a, 0.0);
-        }
-        ms.setProb(maxMinIndex, 1.0);
+        for (int i = 0; i <= mg.getNumActions(playerNumber); i++)
+            ms.setProb(i, 0.0);
+
+        ms.setProb(maxmin, 1.0);
 
 
         return ms;

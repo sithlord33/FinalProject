@@ -34,8 +34,8 @@ public class GameMaster {
 		//players.add(new UniformRandom());
 		players.add(new SolidRock());
 		//players.add(new ManualOverride());
-		//players.add(new MaxMinPayoff());
-		//players.add(new MinMaxRegret());
+		players.add(new MaxMinPayoff());
+		players.add(new MinMaxRegret());
 		players.add(new PSNE());
 		
 		ArrayList<Parameters> settings = new ArrayList<Parameters>();
