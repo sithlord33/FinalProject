@@ -23,28 +23,28 @@ public class PSNE extends Player {
         boolean[][] opponentMatrix = new boolean[mg.getNumActions(playerNumber)][mg.getNumActions(playerNumber)];
 
         for (int i = 1; i < mg.getNumActions(playerNumber); i++) {
-            double p1CurrentMax = Double.MIN_VALUE;
-            double p2CurrentMax = Double.MIN_VALUE;
+            double playerMax = Double.MIN_VALUE;
+            double opponentMax = Double.MIN_VALUE;
             for (int j = 1; j < mg.getNumActions(playerNumber); j++) {
-                int[] p1Actions = {i, j};
-                int[] p2Actions = {j, i};
-                double[] payoffs = mg.getPayoffs(p1Actions);
-                if (p1CurrentMax < payoffs[playerNumber])
-                    p1CurrentMax = payoffs[playerNumber];
-                payoffs = mg.getPayoffs(p2Actions);
-                if (p2CurrentMax < payoffs[getOpponentNumber()-1])
-                    p2CurrentMax = payoffs[getOpponentNumber()-1];
+                int[] playerActions = {i, j};
+                int[] opponentActions = {j, i};
+                double[] payoffs = mg.getPayoffs(playerActions);
+                if (playerMax < payoffs[playerNumber])
+                    playerMax = payoffs[playerNumber];
+                payoffs = mg.getPayoffs(opponentActions);
+                if (opponentMax < payoffs[getOpponentNumber()-1])
+                    opponentMax = payoffs[getOpponentNumber()-1];
             }
 
             for (int j = 1; j < mg.getNumActions(playerNumber); j++) {
-                int[] p1Actions = {i, j};
-                int[] p2Actions = {j, i};
-                double[] payoffs = mg.getPayoffs(p1Actions);
-                if (p1CurrentMax == payoffs[playerNumber])
+                int[] playerActions = {i, j};
+                int[] opponentActions = {j, i};
+                double[] payoffs = mg.getPayoffs(playerActions);
+                if (playerMax == payoffs[playerNumber])
                     playerMatrix[i][j] = true;
                 else playerMatrix[i][j] = false;
-                payoffs = mg.getPayoffs(p2Actions);
-                if(p2CurrentMax == payoffs[getOpponentNumber()-1])
+                payoffs = mg.getPayoffs(opponentActions);
+                if(opponentMax == payoffs[getOpponentNumber()-1])
                     opponentMatrix[j][i] = true;
                 else opponentMatrix[j][i] = false;
             }
